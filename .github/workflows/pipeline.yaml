@@ -6,5 +6,4 @@ jobs:
   install-dependencies:
     runs-on: ubuntu-latest
   steps:
-    - name: Install flask
-      run: pip3 install flask
+    run: pip3 install flask

@@ -1,61 +1,52 @@
-import argparse
-import datetime
 import logging
-import logging.handlers
-import time
+from logging.handlers import RotatingFileHandler
 
 
-logger = logging.getLogger("logtest")
+class RotatingLogger:
+    def __init__(
+        self,
+        log_filename,
+        log_level=logging.INFO,
+        log_format="%(asctime)s - %(levelname)s - %(message)s",
+        max_log_size_bytes=1048576,
+        backup_count=3,
+    ):
+        self.log_filename = log_filename
+        self.log_level = log_level
+        self.log_format = log_format
+        self.max_log_size_bytes = max_log_size_bytes
+        self.backup_count = backup_count
 
+        self.logger = self._create_logger()
 
-def setup_logging(htype):
-    logger.setLevel(logging.INFO)
+    def _create_logger(self):
+        logger = logging.getLogger(__name__)
+        logger.setLevel(self.log_level)
 
-    formatter = logging.Formatter(fmt="%(asctime)s pid/%(process)d %(message)s")
-    handlers = {
-        "rotating": logging.handlers.RotatingFileHandler(
-            "rotating/logtest.log", maxBytes=1024 * 1024, backupCount=10
-        ),
-        "timed": logging.handlers.TimedRotatingFileHandler(
-            "timed/logtest.log", when="M", interval=1, backupCount=10
-        ),
-        "watched": logging.handlers.WatchedFileHandler("watched/logtest.log"),
-    }
-    handler = handlers[htype]
-    handler.setLevel(logging.INFO)
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+        rotating_handler = RotatingFileHandler(
+            self.log_filename,
+            mode="a",
+            maxBytes=self.max_log_size_bytes,
+            backupCount=self.backup_count,
+        )
 
+        formatter = logging.Formatter(self.log_format)
+        rotating_handler.setFormatter(formatter)
 
-def main():
-    try:
-        seq = 0
-        while True:
-            logger.info("Hello {}".format(seq))
-            time.sleep(1)
-            seq = seq + 1
-    except KeyboardInterrupt:
-        logger.info("Goodbye")
+        logger.addHandler(rotating_handler)
+        return logger
 
+    def debug(self, message):
+        self.logger.debug(message)
 
-def rotate():
-    for h in list(logger.handlers):
-        if type(h) is logging.handlers.RotatingFileHandler:
-            print("Rolling over {} now ({})".format(h, datetime.datetime.now()))
-            h.doRollover()
-    print("Logging to {} now".format(h))
-    main()
+    def info(self, message):
+        self.logger.info(message)
 
+    def warning(self, message):
+        self.logger.warning(message)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-r", dest="rotate", action="store_true")
-    parser.add_argument("-t", "--type", action="store")
-    args = parser.parse_args()
+    def error(self, message):
+        self.logger.error(message)
 
-    setup_logging(htype=args.type)
-
-    if args.rotate:
-        rotate()
-    else:
-        main()
+    def critical(self, message):
+        self.logger.critical(message)

@@ -1,14 +1,22 @@
-from flask import Flask, request
+from flask import Flask, request, Response
+from utils import log
 
 app = Flask(__name__)
+logger = log.RotatingLogger(
+    "log/log_file",
+)
+
+response_content = "Ok"
+status_code = 200
+response_headers = {"Content-Type": "text/plain"}
 
 
 @app.route("/windows", methods=["POST"])
-def save_windwos():
+def save_windows():
     data = request.json
-    print(data)
+    logger.info(data)
 
-    return {"mensagem": "Solicitação recebida com sucesso", "data": data}
+    return Response(response_content, status=status_code, headers=response_headers)
 
 
 if __name__ == "__main__":
