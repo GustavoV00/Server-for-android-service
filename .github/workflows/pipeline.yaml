@@ -1,0 +1,10 @@
+name: pipeline
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Roda um echo!
+      run: echo $(pwd)
