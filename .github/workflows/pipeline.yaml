@@ -1,10 +1,10 @@
 name: pipeline
-on: [push, pull_request]
-
+"on":
+  - push
+  - pull_request
 jobs:
   install-dependencies:
     runs-on: ubuntu-latest
-
   steps:
     - name: Install flask
       run: pip3 install flask
