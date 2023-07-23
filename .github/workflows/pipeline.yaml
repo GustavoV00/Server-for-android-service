@@ -2,9 +2,9 @@ name: pipeline
 on: [push, pull_request]
 
 jobs:
-  test:
+  install-dependencies:
     runs-on: ubuntu-latest
 
   steps:
-    - name: Roda um echo!
-      run: echo $(pwd)
+    - name: Install flask
+      run: pip3 install flask
