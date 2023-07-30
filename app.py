@@ -1,23 +1,51 @@
-from flask import Flask, request, Response
+from aiohttp import web
 from utils import log
+import asyncio
 
-app = Flask(__name__)
-logger = log.RotatingLogger(
-    "log/log_file",
-)
+app = web.Application()
+logger = log.RotatingLogger("log/log_file")
 
-response_content = "Ok"
-status_code = 200
-response_headers = {"Content-Type": "text/plain"}
+counter = 0
+buffer = asyncio.Queue()
+lock = asyncio.Lock()
 
 
-@app.route("/windows", methods=["POST"])
-def save_windows():
-    data = request.json
-    logger.info(data)
+async def save_windows(request):
+    global counter
 
-    return Response(response_content, status=status_code, headers=response_headers)
+    try:
+        data = await request.json()
 
+        async with lock:
+            await buffer.put(data)
+            counter += 1
+
+            if counter == 10:
+                await asyncio.gather(log_buffer(), reset_counter())
+
+        response_text = "Ok"
+        return web.Response(text=response_text, status=200, content_type="text/plain")
+
+    except Exception as e:
+        return web.Response(
+            text=f"Error: {str(e)}",
+            status=500,
+            content_type="text/plain",
+        )
+
+
+async def log_buffer():
+    while not buffer.empty():
+        elem = await buffer.get()
+        logger.info(elem)
+
+
+async def reset_counter():
+    global counter
+    counter = 0
+
+
+app.router.add_post("/windows", save_windows)
 
 if __name__ == "__main__":
-    app.run()
+    web.run_app(app)
