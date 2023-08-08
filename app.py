@@ -1,6 +1,7 @@
 from aiohttp import web
 from utils import log
 import asyncio
+import os
 
 app = web.Application()
 logger = log.RotatingLogger("log/log_file")
@@ -8,6 +9,16 @@ logger = log.RotatingLogger("log/log_file")
 counter = 0
 buffer = asyncio.Queue()
 lock = asyncio.Lock()
+
+async def handle_static(request):
+    file_path = os.path.join('log', request.match_info['filename'])
+    
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        with open(file_path, 'r') as file:
+            content = file.read()
+        return web.Response(text=content, content_type='text/plain')
+    else:
+        return web.Response(text="File not found", status=404)
 
 
 async def save_windows(request):
@@ -45,6 +56,7 @@ async def reset_counter():
     counter = 0
 
 
+app.router.add_get('/static/{filename}', handle_static)
 app.router.add_post("/windows", save_windows)
 
 if __name__ == "__main__":

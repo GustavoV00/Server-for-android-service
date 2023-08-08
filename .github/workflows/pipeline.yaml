@@ -1,9 +1,0 @@
-name: pipeline
-"on":
-  - push
-  - pull_request
-jobs:
-  install-dependencies:
-    runs-on: ubuntu-latest
-  steps:
-    run: pip3 install flask
