@@ -48,6 +48,7 @@ async def save_windows(request):
 async def log_buffer():
     while not buffer.empty():
         elem = await buffer.get()
+        print(elem)
         logger.info(elem)
 
 
