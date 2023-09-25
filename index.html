@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto de Pesquisa - Participe!</title>
+    <style>
+      li {
+        margin-left: 2%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      VERIFICAÇÃO DE VIABILIDADE E DESAFIOS DA AUTENTICAÇÃO CONTÍNUA DE USUÁRIOS
+      DE DISPOSITIVOS ANDROID
+    </h1>
+    <main>
+      <div>
+        <li>
+          Para quem tiver curiosidade sobre o código fonte, acesse:
+          <a href="https://github.com/GustavoV00/WindowService">Código</a>
+        </li>
+        <li>
+          Para fazer o download do aplicativo, acesse:
+          <a href="#">Apk Download</a>
+        </li>
+      </div>
+      <div>
+        <h3>Como instalar:</h3>
+        <div>
+          <p>Após instalar o app, siga os seguintes passos:</p>
+          <li>1. Vá em configurações</li>
+          <li>2. acessibilidade</li>
+          <li>3. Vai ter um serviço chamado 'Window Enumeration Service'</li>
+          <li>4. Só selecionar e ativar a funcionalidade</li>
+          <ul>
+            <li>
+              Nota: As vezes tem um bug de não funcionar ao ativar pela primeira
+              vez, então, ative e desative duas vezes se possível para garantir
+              o funcionamento correto do serviço.
+            </li>
+            <li>
+              Para celulares Samsung, pode ser que precise de um passo a mais.
+              Para isso, faça siga os passos 1 ao 4 e talvez o dispositivo vá te
+              avisar que você precisa de uma permissão especial para poder
+              ativar o serviço de acessibilidade. Para poder ativar isso, vá em:
+              aplicativos -> WindowService (App que instalou) -> selecione os 3
+              pontinhos na parte de cima do celular (ou em algum outro local) e
+              ative as permissões.
+            </li>
+            <li>
+              Feito isso, só voltar na parte de accessibilidade e ativar o
+              serviço que vai estar funcionando.
+            </li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div>
+        <h2>Qual o objetivo do projeto</h2>
+        <li>
+          Este projeto visa avaliar se é possível identificar unicamente
+          usuários de celulares a partir da forma como estes utilizam um
+          dispositivo.
+        </li>
+      </div>
+      <div>
+        <h3>Como funciona?</h3>
+        <li>
+          Os usuários instalam um aplicato que contém um serviço de
+          acessibilidade monitorará as aplicações que o usuário utilizar. Os
+          dados são enviados para o servidor do projeto de pesquisa, onde são
+          processados nos experimentos científicos.
+        </li>
+      </div>
+      <div>
+        <h3>Quem são os responsáveis por este projeto?</h3>
+        <li>
+          Este projeto é uma parceria entre os pesquisadores André Grégio (UFPR)
+          e Marcus Botacin (TAMU). Em caso de dúvidas, entre em contato com o
+          responsável pelo projeto na sua unidade. O responśavel pelo projeto na
+          UFPR pode ser contato pelo email
+        </li>
+      </div>
+      <div>
+        <h3>Sou obrigado a participar?</h3>
+        <li>
+          A participação nesse projeto de pesquisa é totalmente voluntária. Não
+          participar do projeto não implica em qualquer tipo de prejuízo.
+        </li>
+      </div>
+      <div>
+        <h3>Minha participação é remunerada?</h3>
+        <li>
+          A participação nesse projeto de pesquisa é totalmente voluntária, sem
+          qualquer tipo de compensação.
+        </li>
+      </div>
+      <div>
+        <h3>Quais dados são coletados?</h3>
+        <li>
+          Os pesquisadores coletarão apenas quais janelas o usuário seleciona
+          durante o uso do celular (Apenas o título). Por exemplo, se você
+          acessar o chrome, apenas o título "Google Chrome" será coletado, se
+          acessar as configurações, apenas o título "Settings" será coletado.
+        </li>
+      </div>
+      <div>
+        <h3>Eu serei identificado?</h3>
+        <li>
+          O projeto visa identificar unicamente os usuário, mas não
+          de-anonimizá-los. Dessa forma, seu uso do celular será identificado
+          unicamente entre os outros usuários, mas os pesquisadores não saberão
+          sua identidade.
+        </li>
+        <li>
+          Os dados enviados do seu celular para os pesquisadores não permitem a
+          sua identificação, pois são codificados. Veja abaixo um exemplo real
+          da forma pelas quais os dados coletados são apresentados aos
+          pesquisadores:
+        </li>
+        <div>
+          <p>
+            2023-09-16 21:05:42,429 - INFO - [{'timestamp':
+            '2023-09-16T18:05:42.545', 'windowStatus': 'ACTIVE', 'windowsNodes':
+            [{'packageName': 'com.android.systemui', 'title': {'hasTitle':
+            False, 'title': 'Systemui'}}], 'user':
+            '39303131-6234-6238-6135-366138623730'}]
+          </p>
+          <p>
+            2023-09-17 19:31:19,427 - INFO - [{'timestamp':
+            '2023-09-17T16:24:00.242', 'windowStatus': 'SWITCH', 'windowsNodes':
+            [{'packageName': 'com.google.android.apps.nexuslauncher', 'title':
+            {'hasTitle': False, 'title': 'Nexuslauncher'}}, {'packageName':
+            'com.google.android.apps.nexuslauncher', 'title': {'hasTitle': True,
+            'title': 'Settings'}}], 'user':
+            '61333862-6130-3065-6635-666461666137'}, {'timestamp':
+            '2023-09-17T16:24:01.209', 'windowStatus': 'ACTIVE', 'windowsNodes':
+            [{'packageName': 'com.android.settings', 'title': {'hasTitle':
+            False, 'title': 'Settings'}}], 'user':
+            '61333862-6130-3065-6635-666461666137'}, {'timestamp':
+            '2023-09-17T16:24:02.527', 'windowStatus': 'SWITCH', 'windowsNodes':
+            [{'packageName': 'com.google.android.apps.nexuslauncher', 'title':
+            {'hasTitle': False, 'title': 'Nexuslauncher'}}, {'packageName':
+            'com.google.android.apps.nexuslauncher', 'title': {'hasTitle': True,
+            'title': 'Messages'}}, {'packageName':
+            'com.google.android.apps.nexuslauncher', 'title': {'hasTitle': True,
+            'title': 'Settings'}}], 'user':
+            '61333862-6130-3065-6635-666461666137'}, {'timestamp':
+            '2023-09-17T16:24:05.095', 'windowStatus': 'ACTIVE', 'windowsNodes':
+            [{'packageName': 'com.google.android.apps.messaging', 'title':
+            {'hasTitle': False, 'title': 'Messaging'}}], 'user':
+            '61333862-6130-3065-6635-666461666137'}, {'timestamp':
+            '2023-09-17T16:24:06.311', 'windowStatus': 'SWITCH', 'windowsNodes':
+            [{'packageName': 'com.google.android.apps.nexuslauncher', 'title':
+            {'hasTitle': False, 'title': 'Nexuslauncher'}}, {'packageName':
+            'com.google.android.apps.nexuslauncher', 'title': {'hasTitle': True,
+            'title': 'Messages'}}, {'packageName':
+            'com.google.android.apps.nexuslauncher', 'title': {'hasTitle': True,
+            'title': 'Settings'}}], 'user':
+            '61333862-6130-3065-6635-666461666137'}]
+          </p>
+        </div>
+      </div>
+      <div>
+        <h3>Como deixar de participar?</h3>
+        <li>
+          Você pode deixar de participar do projeto a qualquer momento, basta
+          desastivar a opção que ativou, na parte de accessibilidade e
+          desinstalar o app.
+        </li>
+      </div>
+    </main>
+  </body>
+</html>
