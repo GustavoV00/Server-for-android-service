@@ -35,6 +35,9 @@ class TimestampedRotatingLogger:
         timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
         log_filename = os.path.join(self.log_directory, f"log_{timestamp}.log")
 
+        if not os.path.exists("log/"):
+            os.makedirs("log/")
+
         if not os.path.exists(log_filename) and self.create_if_not_exists:
             open(log_filename, 'a').close()
 
