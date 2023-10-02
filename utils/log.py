@@ -1,21 +1,21 @@
 import logging
-from logging.handlers import RotatingFileHandler
+import os
+import time
 
-
-class RotatingLogger:
+class TimestampedRotatingLogger:
     def __init__(
         self,
-        log_filename,
+        log_directory="log",
         log_level=logging.INFO,
         log_format="%(asctime)s - %(levelname)s - %(message)s",
-        max_log_size_bytes=1048576,
-        backup_count=3,
+        max_log_size_bytes=1048576,  # 1 MB by default
+        create_if_not_exists=True
     ):
-        self.log_filename = log_filename
+        self.log_directory = log_directory
         self.log_level = log_level
         self.log_format = log_format
         self.max_log_size_bytes = max_log_size_bytes
-        self.backup_count = backup_count
+        self.create_if_not_exists = create_if_not_exists
 
         self.logger = self._create_logger()
 
@@ -23,19 +23,40 @@ class RotatingLogger:
         logger = logging.getLogger(__name__)
         logger.setLevel(self.log_level)
 
-        rotating_handler = RotatingFileHandler(
-            self.log_filename,
-            mode="a",
-            maxBytes=self.max_log_size_bytes,
-            backupCount=self.backup_count,
-        )
-
+        log_filename = self._get_timestamped_log_filename()
+        file_handler = logging.FileHandler(log_filename, mode="a")
         formatter = logging.Formatter(self.log_format)
-        rotating_handler.setFormatter(formatter)
+        file_handler.setFormatter(formatter)
 
-        logger.addHandler(rotating_handler)
+        logger.addHandler(file_handler)
         return logger
 
+    def _get_timestamped_log_filename(self):
+        timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
+        log_filename = os.path.join(self.log_directory, f"log_{timestamp}.log")
+
+        if not os.path.exists(log_filename) and self.create_if_not_exists:
+            open(log_filename, 'a').close()
+
+        return log_filename
+
+    def rotate_logs(self):
+        current_log_filename = self.logger.handlers[0].baseFilename
+        if os.path.getsize(current_log_filename) > self.max_log_size_bytes:
+            # Rename the current log file using the timestamp
+            timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
+            new_log_filename = os.path.join(self.log_directory, f"log_{timestamp}.log")
+            os.rename(current_log_filename, new_log_filename)
+
+            # Create a new log file
+            open(current_log_filename, 'a').close()
+
+            self.logger.removeHandler(self.logger.handlers[0])
+            new_file_handler = logging.FileHandler(current_log_filename, mode="a")
+            formatter = logging.Formatter(self.log_format)
+            new_file_handler.setFormatter(formatter)
+            self.logger.addHandler(new_file_handler)
+    
     def debug(self, message):
         self.logger.debug(message)
 

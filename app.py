@@ -4,7 +4,8 @@ import asyncio
 import os
 
 app = web.Application()
-logger = log.RotatingLogger("log/log_file")
+
+logger = log.TimestampedRotatingLogger()
 
 counter = 0
 buffer = asyncio.Queue()
@@ -50,6 +51,7 @@ async def log_buffer():
         elem = await buffer.get()
         print(elem)
         logger.info(elem)
+    logger.rotate_logs()
 
 
 async def reset_counter():
