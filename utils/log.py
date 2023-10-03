@@ -7,7 +7,7 @@ class TimestampedRotatingLogger:
         self,
         log_directory="log",
         log_level=logging.INFO,
-        log_format="%(asctime)s - %(levelname)s - %(message)s",
+        log_format="%(message)s",
         max_log_size_bytes=1048576,  # 1 MB by default
         create_if_not_exists=True
     ):
