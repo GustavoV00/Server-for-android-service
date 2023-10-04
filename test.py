@@ -17,6 +17,7 @@ request_body_1 = {
         }
     ]
 }
+
 request_body_2 = [
    {
       "timestamp":"2023-10-02T15:22:11.808",
@@ -111,7 +112,7 @@ def response_check(response):
         print(f"Request failed with status code: {response.status_code}")
 
 
-for _ in range(6000):
+for _ in range(100):
     random_number = random.randint(0, 100)
     if (random_number < 50):
         response = requests.post(url, json=request_body_1)

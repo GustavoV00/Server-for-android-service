@@ -2,6 +2,7 @@ from aiohttp import web
 from utils import log
 import asyncio
 import os
+import json
 
 app = web.Application()
 
@@ -27,9 +28,12 @@ async def save_windows(request):
 
     try:
         data = await request.json()
+        data_str = json.dumps(data).replace("'", '"')
+        data_str = data_str.replace('false', '"False"').replace('true', '"True"')
+
 
         async with lock:
-            await buffer.put(data)
+            await buffer.put(data_str)
             counter += 1
 
             if counter == 10:
@@ -49,7 +53,7 @@ async def save_windows(request):
 async def log_buffer():
     while not buffer.empty():
         elem = await buffer.get()
-        print(elem)
+        # print(elem)
         logger.info(elem)
     logger.rotate_logs()
 
