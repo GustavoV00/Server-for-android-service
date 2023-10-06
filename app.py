@@ -4,24 +4,12 @@ import asyncio
 import os
 import json
 
-app = web.Application()
 
 logger = log.TimestampedRotatingLogger()
 
 counter = 0
 buffer = asyncio.Queue()
 lock = asyncio.Lock()
-
-async def handle_static(request):
-    file_path = os.path.join('log', request.match_info['filename'])
-    
-    if os.path.exists(file_path) and os.path.isfile(file_path):
-        with open(file_path, 'r') as file:
-            content = file.read()
-        return web.Response(text=content, content_type='text/plain')
-    else:
-        return web.Response(text="File not found", status=404)
-
 
 async def save_windows(request):
     global counter
@@ -53,7 +41,7 @@ async def save_windows(request):
 async def log_buffer():
     while not buffer.empty():
         elem = await buffer.get()
-        # print(elem)
+        print(elem)
         logger.info(elem)
     logger.rotate_logs()
 
@@ -63,8 +51,7 @@ async def reset_counter():
     counter = 0
 
 
-app.router.add_get('/static/{filename}', handle_static)
-app.router.add_post("/windows", save_windows)
-
-if __name__ == "__main__":
-    web.run_app(app)
+async def my_web_app():
+    app = web.Application()
+    app.router.add_post("/windows", save_windows)
+    return app
