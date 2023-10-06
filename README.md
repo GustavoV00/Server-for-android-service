@@ -8,3 +8,8 @@ docker build -t nginx_image_name nginx -> This builds a nginx image <br/>
 docker run -d -p PORT:PORT nginx_image_name -> This runs the image <br/>
 gunicorn app:my_web_app --bind localhost:PORT --worker-class aiohttp.GunicornWebWorker -> To run the server <br/>
 -> Para mais workers, use a flag -w, exemplo: -w 4
+
+### Dependencies
+
+pip install aiohttp <br/>
+pip install gunicorn <br/>
