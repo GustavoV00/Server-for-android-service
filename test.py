@@ -2,7 +2,7 @@ import requests
 import json
 import random
 
-url = "http://127.0.0.1:8080/windows"  
+url = "http://127.0.0.1:5000/windows"  
 
 request_body_1 = {
     "timestamp": "2023-07-10T20:06:42.538",
