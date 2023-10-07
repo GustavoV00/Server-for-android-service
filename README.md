@@ -4,12 +4,7 @@ Essa aplicação é para receber os dados de um serviço de accessbilidade Andro
 
 ## How to run
 
-docker build -t nginx_image_name nginx -> This builds a nginx image <br/>
-docker run -d -p PORT:PORT nginx_image_name -> This runs the image <br/>
-gunicorn app:my_web_app --bind localhost:PORT --worker-class aiohttp.GunicornWebWorker -> To run the server <br/>
--> Para mais workers, use a flag -w, exemplo: -w 4
+docker build -t image_name . <br/>
+docker run -o 5000:5000 image_name -> Needs to be port 5000, because it's where nginx is running
 
 ### Dependencies
-
-pip install aiohttp <br/>
-pip install gunicorn <br/>
