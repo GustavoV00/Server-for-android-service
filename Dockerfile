@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y nginx supervisor
 COPY configs/nginx.conf /etc/nginx/nginx.conf
 COPY configs/supervisord-gunicorn.conf /etc/supervisor/conf.d/
 
-# Expose port 5000 for Nginx
-EXPOSE 5000
+# Expose port 8080 for Nginx
+EXPOSE 8080
 
 # Copy the startup script into the container
 COPY scripts/start-gunicorn.sh /app/
